@@ -1,0 +1,58 @@
+@startuml
+' 设置类的样式
+
+interface EnemyFactory {
+    + {abstract} createEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int) : BaseEnemy
+}
+
+class EliteEnemyFactory {
+    + createEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int) : BaseEnemy
+}
+
+class MobEnemyFactory {
+    + createEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int) : BaseEnemy
+}
+
+
+class BaseEnemy {
+    + BaseEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int)
+    + shoot() : List<BaseBullet>
+    + createProp() : BaseProp
+}
+
+
+class EliteEnemy {
+    - shootNum:int
+    - power:int
+    - direction:int
+    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward():void
+    + shoot():List<BaseBullet>
+    + createProp() : BaseProp
+}
+
+
+BaseEnemy <|-- EliteEnemy
+class MobEnemy {
+    + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward():void
+    + shoot():List<BaseBullet>
+    + createProp() : BaseProp
+}
+BaseEnemy <|-- MobEnemy
+
+
+' 继承关系
+
+
+EnemyFactory <|.. EliteEnemyFactory
+EnemyFactory <|.. MobEnemyFactory
+' 工厂模式示意
+
+
+EliteEnemyFactory ..> EliteEnemy : <<create>>
+MobEnemyFactory ..> MobEnemy : <<create>>
+EnemyFactory ..> BaseEnemy : <<create>>
+
+
+@enduml

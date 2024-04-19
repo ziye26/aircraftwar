@@ -1,0 +1,54 @@
+@startuml
+
+interface PropFactory {
+    + {abstract} CreateProp(int locationX,int locationY,int speedX,int speedY): BaseProp
+}
+
+class BulletPropFactory {
+    + CreateProp(int locationX,int locationY,int speedX,int speedY): BaseProp
+}
+
+class BombPropFactory {
+    + CreateProp(int locationX,int locationY,int speedX,int speedY): BaseProp
+}
+
+class BloodPropFactory {
+    + CreateProp(int locationX,int locationY,int speedX,int speedY): BaseProp
+}
+
+class BaseProp {
+    + BaseProp(int locationX,int locationY,int speedX,int speedY)
+    + forward(): void
+    + Active(HeroAircraft a): void
+}
+
+class BloodProp {
+    - AddHp:int
+    + BloodProp(int locationX, int locationY, int speedX, int speedY)
+    + getAddHp():int
+    + Active(HeroAircraft a): void
+}
+class BombProp {
+    + BombProp(int locationX, int locationY, int speedX, int speedY)
+    + Active(HeroAircraft a): void
+}
+class BulletProp {
+    + BulletProp(int locationX, int locationY, int speedX, int speedY)
+    + Active(HeroAircraft a): void
+}
+BaseProp <|-- BombProp
+BaseProp <|-- BloodProp
+BaseProp <|-- BulletProp
+
+
+
+PropFactory <|.. BulletPropFactory
+PropFactory <|.. BombPropFactory
+PropFactory <|.. BloodPropFactory
+
+PropFactory ..> BaseProp : <<create>>
+BloodPropFactory ..> BloodProp : <<create>>
+BulletPropFactory ..> BulletProp : <<create>>
+BombPropFactory ..> BombProp : <<create>>
+
+@enduml

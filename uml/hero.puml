@@ -1,0 +1,19 @@
+@startuml
+left to right direction
+class HeroAircraft {
+    - {static} instance: HeroAircraft
+    - shootNum:int
+    - power:int
+    - direction:int
+    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + {static} getInstance(): HeroAircraft
+    + forward(): void
+    + shoot(): List<BaseBullet>
+}
+
+
+client --> HeroAircraft::getInstance
+HeroAircraft::instance --> HeroAircraft
+
+@enduml
+

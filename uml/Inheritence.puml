@@ -1,0 +1,129 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class AbstractFlyingObject
+{
+    # locationX:int
+    # locationY:int
+    # speedX:int
+    # speedY:int
+    # image:BufferedImage
+    # width:int
+    # height:int
+    # isValid:boolean
+
+    + AbstractFlyingObject(int locationX, int locationY, int speedX, int speedY)
+    + forward():void
+    + crash(AbstractFlyingObject flyingObject):boolean
+    + setLocation(double locationX, double locationY):void
+    + getLocationX():int
+    + getLocationY():int
+    + getSpeedY():int
+    + getImage():BufferedImage
+    + getWidth():int
+    + getHeight():int
+    + notValid():boolean
+    + vanish():void
+}
+abstract class AbstractAircraft
+{
+	# maxHp:int
+    # hp:int
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + decreaseHp(int decrease):void
+    + getHp():int
+    + {abstract} shoot():List<BaseBullet>
+ }
+class BaseProp {
+    + BaseProp(int locationX,int locationY,int speedX,int speedY)
+    + forward(): void
+    + Active(HeroAircraft a): void
+}
+
+class HeroAircraft {
+    - {static} instance: HeroAircraft
+    - shootNum:int
+    - power:int
+    - direction:int
+    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + {static} getInstance(): HeroAircraft
+    + forward(): void
+    + shoot(): List<BaseBullet>
+}
+
+
+HeroAircraft::instance --> HeroAircraft
+
+AbstractAircraft <|-- HeroAircraft
+
+class BaseEnemy {
+    + BaseEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int)
+    + shoot() : List<BaseBullet>
+    + createProp() : BaseProp
+}
+AbstractAircraft <|-- BaseEnemy
+
+class MobEnemy {
+    + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward():void
+    + shoot():List<BaseBullet>
+    + createProp() : BaseProp
+}
+BaseEnemy <|-- MobEnemy
+
+class EliteEnemy {
+    - shootNum:int
+    - power:int
+    - direction:int
+    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward():void
+    + shoot():List<BaseBullet>
+    + createProp() : BaseProp
+}
+BaseEnemy <|-- EliteEnemy
+
+
+abstract class BaseBullet
+{
+    - power:int
+    + BaseBullet(int locationX, int locationY, int speedX, int speedY, int power)
+    + forward():void
+	+ getPower():int
+}
+
+class HeroBullet {
+    + HeroBullet(int locationX, int locationY,
+     int speedX, int speedY, int power)
+}
+
+class EnemyBullet {
+    + EnemyBullet(int locationX, int locationY,
+     int speedX, int speedY, int power)
+}
+
+BaseBullet <|-- HeroBullet
+BaseBullet <|-- EnemyBullet
+
+class BloodProp {
+    - AddHp:int
+    + BloodProp(int locationX, int locationY, int speedX, int speedY)
+    + getAddHp():int
+    + Active(HeroAircraft a): void
+}
+class BombProp {
+    + BombProp(int locationX, int locationY, int speedX, int speedY)
+    + Active(HeroAircraft a): void
+}
+class BulletProp {
+    + BulletProp(int locationX, int locationY, int speedX, int speedY)
+    + Active(HeroAircraft a): void
+}
+BaseProp <|-- BombProp
+BaseProp <|-- BloodProp
+BaseProp <|-- BulletProp
+
+AbstractFlyingObject <|-- AbstractAircraft
+AbstractFlyingObject <|-- BaseBullet
+AbstractFlyingObject <|-- BaseProp
+
+@enduml
