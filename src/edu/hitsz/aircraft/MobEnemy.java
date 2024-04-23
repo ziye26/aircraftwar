@@ -29,7 +29,7 @@ public class MobEnemy extends BaseEnemy {
     }
 
     @Override
-    public BaseProp createProp() {
+    public List<BaseProp> createProp() {
         return super.createProp();
     }
 

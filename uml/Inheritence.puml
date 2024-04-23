@@ -34,7 +34,7 @@ abstract class AbstractAircraft
     + getHp():int
     + {abstract} shoot():List<BaseBullet>
  }
-class BaseProp {
+abstract class BaseProp {
     + BaseProp(int locationX,int locationY,int speedX,int speedY)
     + forward(): void
     + Active(HeroAircraft a): void
@@ -56,7 +56,7 @@ HeroAircraft::instance --> HeroAircraft
 
 AbstractAircraft <|-- HeroAircraft
 
-class BaseEnemy {
+abstract class BaseEnemy {
     + BaseEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int)
     + shoot() : List<BaseBullet>
     + createProp() : BaseProp

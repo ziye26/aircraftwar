@@ -7,9 +7,7 @@ import edu.hitsz.PropFactory.PropFactory;
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.EnemyBullet;
-import edu.hitsz.bullet.HeroBullet;
 import edu.hitsz.prop.BaseProp;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.*;
 
@@ -32,26 +30,27 @@ public class EliteEnemy extends BaseEnemy{
     }
 
     @Override
-    public BaseProp createProp() {
+    public List<BaseProp> createProp() {
         PropFactory propFactory;
-        if (((int) (Math.random() * 101) % 2 == 0)){
+        List<BaseProp> l =new LinkedList<>();
+        if (((int) (Math.random() * 101) % 2 == 0)) {
             if (((int) (Math.random() * 101) % 2 == 0)) {
                 //生成道具
-                propFactory=new BloodPropFactory();
-                return propFactory.CreateProp(this.getLocationX(), this.getLocationY(),
-                        0, this.getSpeedY());
+                propFactory = new BloodPropFactory();
+                l.add(propFactory.CreateProp(this.getLocationX(), this.getLocationY(),
+                        0, this.getSpeedY()));
             } else if (((int) (Math.random() * 101) % 2 == 0)) {
-                propFactory=new BombPropFactory();
-                return propFactory.CreateProp(this.getLocationX(), this.getLocationY(),
-                        0, this.getSpeedY());
-            }
-            else {
-                propFactory=new BulletPropFactory();
-                return propFactory.CreateProp(this.getLocationX(), this.getLocationY(),
-                        0, this.getSpeedY());
+                propFactory = new BombPropFactory();
+                l.add(propFactory.CreateProp(this.getLocationX(), this.getLocationY(),
+                        0, this.getSpeedY()));
+            } else {
+                propFactory = new BulletPropFactory();
+                l.add(propFactory.CreateProp(this.getLocationX(), this.getLocationY(),
+                        0, this.getSpeedY()));
+
             }
         }
-        else return null;
+        return l;
     }
 
     @Override

@@ -4,7 +4,7 @@ import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.application.Main;
 import edu.hitsz.basic.AbstractFlyingObject;
 
-public class BaseProp extends AbstractFlyingObject{
+public abstract class BaseProp extends AbstractFlyingObject{
 
     public BaseProp(int locationX, int locationY, int speedX, int speedY) {
         super(locationX, locationY, speedX, speedY);

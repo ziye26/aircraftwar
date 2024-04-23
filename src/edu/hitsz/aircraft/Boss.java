@@ -9,6 +9,7 @@ import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.prop.BaseProp;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,26 +31,30 @@ public class Boss extends BaseEnemy{
     }
 
     @Override
-    public BaseProp createProp() {
+    public List<BaseProp> createProp() {
+        List<BaseProp> l =new LinkedList<>();
         PropFactory propFactory;
-        if (((int) (Math.random() * 101) % 2 == 0)){
+        for(int i=0;i<3;i++) {
             if (((int) (Math.random() * 101) % 2 == 0)) {
-                //生成道具
-                propFactory=new BloodPropFactory();
-                return propFactory.CreateProp(this.getLocationX(), this.getLocationY(),
-                        0, this.getSpeedY());
-            } else if (((int) (Math.random() * 101) % 2 == 0)) {
-                propFactory=new BombPropFactory();
-                return propFactory.CreateProp(this.getLocationX(), this.getLocationY(),
-                        0, this.getSpeedY());
-            }
-            else {
-                propFactory=new BulletPropFactory();
-                return propFactory.CreateProp(this.getLocationX(), this.getLocationY(),
-                        0, this.getSpeedY());
+                if (((int) (Math.random() * 101) % 2 == 0)) {
+                    //生成道具
+                    propFactory = new BloodPropFactory();
+                    l.add(propFactory.CreateProp(this.getLocationX(), this.getLocationY(),
+                            0, 10));
+                } else if (((int) (Math.random() * 101) % 2 == 0)) {
+                    propFactory = new BombPropFactory();
+                    l.add(propFactory.CreateProp(this.getLocationX()+i*5, this.getLocationY()+i*5,
+                            0, 10));
+                } else {
+                    propFactory = new BulletPropFactory();
+                    l.add(propFactory.CreateProp(this.getLocationX()+8*i, this.getLocationY()+8*i,
+                            0, 10));
+
+                }
             }
         }
-        else return null;
+        return l;
+
     }
 
     @Override

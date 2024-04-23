@@ -112,7 +112,7 @@ public class Game extends JPanel {
                 // 新敌机产生
 
                 if (enemyAircrafts.size() < enemyMaxNumber) {
-                    if(score>300&&((int)(Math.random()*100))%3==0){
+                    if(score>300&&((int)(Math.random()*100)%2==0)&&time%5400==0){
                         enemyFactory = new BossFactory();
                         enemyAircrafts.add(enemyFactory.createEnemy());
 
@@ -133,7 +133,6 @@ public class Game extends JPanel {
                 // 飞机射出子弹
                 shootAction();
             }
-
             // 子弹移动
             bulletsMoveAction();
 
@@ -257,9 +256,10 @@ public class Game extends JPanel {
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
                         // TODO 获得分数，产生道具补给
-                        BaseProp a = enemyAircraft.createProp();
-                        if(a!=null) {
-                            props.add(a);
+                        List<BaseProp> a = new LinkedList<>();
+                        a=enemyAircraft.createProp();
+                        for(var i:a){
+                            props.add(i);
                         }
                         score += 10;
                     }
