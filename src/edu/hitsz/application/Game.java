@@ -112,16 +112,17 @@ public class Game extends JPanel {
                 // 新敌机产生
 
                 if (enemyAircrafts.size() < enemyMaxNumber) {
-                    if(score>300&&((int)(Math.random()*100)%2==0)&&time%5400==0){
+                    // 大于300秒时每隔6600若不存在boss则概率生成boss
+                    if(score>300&&((int)(Math.random()*100)%2==0)&&(time%6600==0)&&!Boss.getExistence()){
                         enemyFactory = new BossFactory();
                         enemyAircrafts.add(enemyFactory.createEnemy());
 
                     }
-                    if (time%6000==0&&((int)(Math.random()*100))%3!=0){
+                    else if (time%6000==0&&((int)(Math.random()*100))%3!=0){
                         enemyFactory=new ElitePlusEnemyFactory();
                         enemyAircrafts.add(enemyFactory.createEnemy());
                     }
-                    if (((int)(Math.random()*100))%2==0) {
+                    else if (((int)(Math.random()*100))%2==0) {
                         enemyFactory= new EliteEnemyFactory();
                         enemyAircrafts.add(enemyFactory.createEnemy());
                     }

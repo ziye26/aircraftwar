@@ -17,9 +17,11 @@ public class Boss extends BaseEnemy{
     private int shootNum = 20;
     private int power = 30;
     private int direction = 1;//和游戏机相反
+    private static int flag=0;
 
     public Boss(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
+        flag=1;
     }
     @Override
     public void forward(){
@@ -28,6 +30,18 @@ public class Boss extends BaseEnemy{
         if (locationY >= Main.WINDOW_HEIGHT ) {
             vanish();
         }
+    }
+
+    @Override
+    public void vanish() {
+        super.vanish();
+        flag=0;
+
+
+    }
+
+    public static boolean getExistence(){
+        return flag==1;
     }
 
     @Override
@@ -40,15 +54,15 @@ public class Boss extends BaseEnemy{
                     //生成道具
                     propFactory = new BloodPropFactory();
                     l.add(propFactory.CreateProp(this.getLocationX(), this.getLocationY(),
-                            0, 10));
+                            0, 5+2*i));
                 } else if (((int) (Math.random() * 101) % 2 == 0)) {
                     propFactory = new BombPropFactory();
                     l.add(propFactory.CreateProp(this.getLocationX()+i*5, this.getLocationY()+i*5,
-                            0, 10));
+                            0, 5+2*i));
                 } else {
                     propFactory = new BulletPropFactory();
                     l.add(propFactory.CreateProp(this.getLocationX()+8*i, this.getLocationY()+8*i,
-                            0, 10));
+                            0, 5+2*i));
 
                 }
             }
