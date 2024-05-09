@@ -1,0 +1,37 @@
+@startuml
+
+class Player {
+    -score : int
+    -name : String
+    -time : String
+
+    +Player(int score, String name)
+    +toString() : String
+    +getScore() : int
+    +setScore(int score) : void
+    +getName() : String
+    +setName(String name) :void
+    +compareTo(Player player) :int
+
+}
+
+interface PlayerDao {
+    +{abstract} getAllPlayers() : List<Player>
+    +{abstract} doAdd(Player player) : void
+    +{abstract} doDelete(int rank) : void
+}
+
+
+class PlayerDaoImpl implements PlayerDao {
+    +getAllPlayers() : List<Player>
+    +doAdd(Player player) : void
+    +doDelete(int rank) : void
+}
+
+class Game{
+}
+
+Game ..> PlayerDao
+PlayerDaoImpl --> Player
+
+@enduml

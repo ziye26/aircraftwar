@@ -16,7 +16,7 @@ class BloodPropFactory {
     + CreateProp(int locationX,int locationY,int speedX,int speedY): BaseProp
 }
 
-class BaseProp {
+abstract class BaseProp {
     + BaseProp(int locationX,int locationY,int speedX,int speedY)
     + forward(): void
     + Active(HeroAircraft a): void

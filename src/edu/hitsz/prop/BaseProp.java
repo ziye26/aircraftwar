@@ -29,9 +29,7 @@ public abstract class BaseProp extends AbstractFlyingObject{
         }
     }
 
-    public void Active(HeroAircraft a) {
-
-    }
+    public abstract void Active(HeroAircraft a) ;
 
 }
 

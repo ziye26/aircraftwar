@@ -14,7 +14,7 @@ class MobEnemyFactory {
 }
 
 
-class BaseEnemy {
+abstract class BaseEnemy {
     + BaseEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int)
     + shoot() : List<BaseBullet>
     + createProp() : BaseProp

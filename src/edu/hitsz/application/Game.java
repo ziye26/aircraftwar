@@ -1,17 +1,17 @@
 package edu.hitsz.application;
 
+import edu.hitsz.Dao.Player;
+import edu.hitsz.Dao.PlayerDao;
+import edu.hitsz.Dao.PlayerDaoImpl;
 import edu.hitsz.EnemyFactory.*;
-import edu.hitsz.PropFactory.BloodPropFactory;
-import edu.hitsz.PropFactory.BombPropFactory;
-import edu.hitsz.PropFactory.BulletPropFactory;
-import edu.hitsz.PropFactory.PropFactory;
+import edu.hitsz.Thread.MainMusicThread;
+import edu.hitsz.Thread.MusicThread;
+import edu.hitsz.Thread.PropThread;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.prop.BaseProp;
-import edu.hitsz.prop.BombProp;
-import edu.hitsz.prop.BulletProp;
-import edu.hitsz.prop.BloodProp;
+import edu.hitsz.swing.PlayerTable;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.*;
 
 import static java.lang.Math.min;
+import static java.util.Collections.sort;
 
 /**
  * 游戏主面板，游戏启动
@@ -29,6 +30,7 @@ import static java.lang.Math.min;
  * @author hitsz
  */
 public class Game extends JPanel {
+
 
     private int backGroundTop = 0;
 
@@ -41,6 +43,8 @@ public class Game extends JPanel {
      * 时间间隔(ms)，控制刷新频率
      */
     private int timeInterval = 40;
+
+    protected BufferedImage BACKGROUND;
     private EnemyFactory enemyFactory;
     private final HeroAircraft heroAircraft;
     private final List<BaseEnemy> enemyAircrafts;
@@ -99,6 +103,9 @@ public class Game extends JPanel {
      * 游戏启动入口，执行游戏逻辑
      */
     public void action() {
+        //背景音乐播放线程
+        Thread mainMusicThread= new MainMusicThread("src/videos/bgm.wav");
+        mainMusicThread.start();
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         Runnable task = () -> {
@@ -110,9 +117,14 @@ public class Game extends JPanel {
             if (timeCountAndNewCycleJudge()) {
                 System.out.println(time);
                 // 新敌机产生
-
+                //300分时，直接产生boss
+                if(score==300&&!Boss.getExistence()){
+                    enemyFactory = new BossFactory();
+                    enemyAircrafts.add(enemyFactory.createEnemy());
+                }
                 if (enemyAircrafts.size() < enemyMaxNumber) {
-                    // 大于300秒时每隔6600若不存在boss则概率生成boss
+
+                    // 大于300分时每隔6600若不存在boss则概率生成boss
                     if(score>300&&((int)(Math.random()*100)%2==0)&&(time%6600==0)&&!Boss.getExistence()){
                         enemyFactory = new BossFactory();
                         enemyAircrafts.add(enemyFactory.createEnemy());
@@ -158,6 +170,20 @@ public class Game extends JPanel {
                 executorService.shutdown();
                 gameOverFlag = true;
                 System.out.println("Game Over!");
+                MusicThread.ifOpen=false;
+                System.out.println("*****************************");
+                System.out.println("           得分排行榜");
+                System.out.println("*****************************");
+
+                PlayerDao playerDao=new PlayerDaoImpl();
+                playerDao.doAdd(new Player(score,"testUserName"));
+                List<Player> l=playerDao.getAllPlayers();
+                int i=1;
+                for(var a:l){
+                    System.out.println("第"+(i++)+"名:" + a);
+                }
+                Main.cardPanel.add(new PlayerTable().getMainPanel());
+                Main.cardLayout.last(Main.cardPanel);
             }
 
         };
@@ -281,7 +307,8 @@ public class Game extends JPanel {
                 }
                 a.vanish();
                 a.Active(heroAircraft);
-
+                Thread t=new Thread(new PropThread(a));
+                t.start();
             }
         }
 
@@ -306,19 +333,22 @@ public class Game extends JPanel {
     //      Paint 各部分
     //***********************
 
+
+
     /**
      * 重写paint方法
      * 通过重复调用paint方法，实现游戏动画
      *
      * @param  g
      */
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
         // 绘制背景,图片滚动
-        g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, this.backGroundTop - Main.WINDOW_HEIGHT, null);
-        g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, this.backGroundTop, null);
+        g.drawImage(BACKGROUND, 0, this.backGroundTop - Main.WINDOW_HEIGHT, null);
+        g.drawImage(BACKGROUND, 0, this.backGroundTop, null);
         this.backGroundTop += 1;
         if (this.backGroundTop == Main.WINDOW_HEIGHT) {
             this.backGroundTop = 0;

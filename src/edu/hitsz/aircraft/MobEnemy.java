@@ -1,5 +1,7 @@
 package edu.hitsz.aircraft;
 
+import edu.hitsz.ShootStrategy.NotShoot;
+import edu.hitsz.ShootStrategy.ShootStrategy;
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.prop.BaseProp;
@@ -17,6 +19,7 @@ public class MobEnemy extends BaseEnemy {
 
     public MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
+        this.shootStrategy=new NotShoot();
     }
 
     @Override
@@ -35,7 +38,7 @@ public class MobEnemy extends BaseEnemy {
 
     @Override
     public List<BaseBullet> shoot() {
-        return new LinkedList<>();
+        return this.shootStrategy.shoot(this);
     }
 
 }

@@ -1,5 +1,7 @@
 package edu.hitsz.prop;
 
+import edu.hitsz.ShootStrategy.DividingShoot;
+import edu.hitsz.ShootStrategy.ShootStrategy;
 import edu.hitsz.aircraft.HeroAircraft;
 
 public class BulletProp extends BaseProp {
@@ -11,5 +13,8 @@ public class BulletProp extends BaseProp {
     @Override
     public void Active(HeroAircraft a) {
         System.out.println("FireSupply active!");
+        ShootStrategy shootStrategy=new DividingShoot();
+        a.setShootNum(3);
+        a.SetShootStrategy(shootStrategy);
     }
 }

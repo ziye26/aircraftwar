@@ -1,0 +1,50 @@
+@startuml
+
+interface ShootStrategy {
+    {abstract} +shoot(AbstractAircraft a) : List<BaseBullet>
+}
+
+class CircleShoot {
+    +shoot(AbstractAircraft a) : List<BaseBullet>
+}
+
+class LineShoot {
+    +shoot(AbstractAircraft a) : List<BaseBullet>
+}
+
+class NotShoot{
+    +shoot(AbstractAircraft a) : List<BaseBullet>
+}
+
+class DividingShoot{
+    +shoot(AbstractAircraft a) : List<BaseBullet>
+}
+
+
+abstract class AbstractAircraft{
+    # maxHp : int
+    # hp : int
+    # shootNum : int
+    # direction : int
+    # power : int
+    # shootStrategy : ShootStrategy
+
+    + getShootNum() : int
+    + setShootNum(int shootNum) : void
+    + getDirection() : int
+    + getPower() : int
+    + AbstractAircraft(int locationX,int locationY, int speedX, int speedY, int hp)
+    + decreaseHp( int decrease) : void
+    + getHp() : int
+    + SetShootStrategy(ShootStrategy shootStrategy) : void
+    + {abstract} shoot() : List<BaseBullet>
+}
+
+AbstractAircraft o--> ShootStrategy
+Game ..> AbstractAircraft
+ShootStrategy <|.. CircleShoot
+ShootStrategy <|.. LineShoot
+ShootStrategy <|.. NotShoot
+ShootStrategy <|.. DividingShoot
+
+@enduml
