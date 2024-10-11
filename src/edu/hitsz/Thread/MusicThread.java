@@ -17,13 +17,14 @@ import javax.sound.sampled.DataLine.Info;
 
 public class MusicThread extends Thread {
     public static boolean ifOpen=true;
+    public final static Object lock=new Object();
 
     //一次播放结束
 
     //音频文件名
     private String filename;
     protected AudioFormat audioFormat;
-    private byte[] samples;
+    protected byte[] samples;
 
     public MusicThread(String filename) {
         //初始化filename

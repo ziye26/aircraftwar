@@ -26,7 +26,7 @@ public class DividingShoot implements ShootStrategy{
                 bullet = new HeroBullet(x + (i*2 - a.getShootNum() + 1)*10, y, (i*2-a.getShootNum()+1),
                         speedY, a.getPower());
             }
-            else bullet=new EnemyBullet(x + (i*2 - a.getShootNum() + 1)*10, y, (i*2-a.getShootNum()+1),
+            else bullet=new EnemyBullet(x + (i*2 - a.getShootNum() + 1)*10, y, speedX+(i*2-a.getShootNum()+1),
                     speedY, a.getPower());
             res.add(bullet);
         }

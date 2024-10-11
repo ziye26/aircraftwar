@@ -23,6 +23,9 @@ interface PlayerDao {
 
 
 class PlayerDaoImpl implements PlayerDao {
+    - filename_easy :String
+    - filename_normal :String
+    - filename_difficult : String
     +getAllPlayers() : List<Player>
     +doAdd(Player player) : void
     +doDelete(int rank) : void

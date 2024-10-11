@@ -2,33 +2,64 @@
 ' 设置类的样式
 
 interface EnemyFactory {
-    + {abstract} createEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int) : BaseEnemy
+    + {abstract} createEnemy() : BaseEnemy
 }
 
 class EliteEnemyFactory {
-    + createEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int) : BaseEnemy
+    + EliteEnemyFactory()
+    + createEnemy() : BaseEnemy
 }
 
 class MobEnemyFactory {
-    + createEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int) : BaseEnemy
+    + MobEnemyFactory()
+    + createEnemy() : BaseEnemy
+}
+
+class ElitePlusEnemyFactory implements EnemyFactory {
+    + ElitePlusEnemyFactory()
+    + createEnemy() : BaseEnemy
 }
 
 
 abstract class BaseEnemy {
-    + BaseEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int)
+    + BaseEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
     + shoot() : List<BaseBullet>
-    + createProp() : BaseProp
+    + createProp() : List<BaseProp>
 }
 
 
+
+
 class EliteEnemy {
-    - shootNum:int
-    - power:int
-    - direction:int
-    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
-    + forward():void
-    + shoot():List<BaseBullet>
-    + createProp() : BaseProp
+    +EliteEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int)
+    +forward(): void
+    +createProp(): List<BaseProp>
+    +shoot(): List<BaseBullet>
+    +update(): void
+}
+
+class Boss extends BaseEnemy {
+    - {static} flag : int
+
+    + Boss(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward(): void
+    + vanish(): void
+    + createProp(): List<BaseProp>
+    + shoot(): List<BaseBullet>
+    + {static} getExistence(): boolean
+    + update(): void
+}
+class ElitePlusEnemy extends BaseEnemy {
+    + ElitePlusEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward() : void
+    + createProp() : List<BaseProp>
+    + shoot() : List<BaseBullet>
+    + update() : void
+}
+
+class BossFactory implements EnemyFactory {
+    +BossFactory()
+    +createEnemy() : BaseEnemy
 }
 
 
@@ -37,7 +68,8 @@ class MobEnemy {
     + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
     + forward():void
     + shoot():List<BaseBullet>
-    + createProp() : BaseProp
+    + createProp() : List<BaseProp>
+    +update(): void
 }
 BaseEnemy <|-- MobEnemy
 
@@ -53,6 +85,8 @@ EnemyFactory <|.. MobEnemyFactory
 EliteEnemyFactory ..> EliteEnemy : <<create>>
 MobEnemyFactory ..> MobEnemy : <<create>>
 EnemyFactory ..> BaseEnemy : <<create>>
+BossFactory ..> Boss : <<create>>
+ElitePlusEnemyFactory ..> ElitePlusEnemy : <<create>>
 
 
 @enduml

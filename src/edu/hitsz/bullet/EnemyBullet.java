@@ -1,5 +1,7 @@
 package edu.hitsz.bullet;
 
+import edu.hitsz.Observer.Observer;
+
 /**
  * @Author hitsz
  */
@@ -9,4 +11,8 @@ public class EnemyBullet extends BaseBullet {
         super(locationX, locationY, speedX, speedY, power);
     }
 
+    @Override
+    public void update() {
+        this.vanish();
+    }
 }

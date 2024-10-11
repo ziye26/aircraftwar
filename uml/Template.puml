@@ -1,0 +1,88 @@
+@startuml
+
+abstract class Game {
+    - backGroundTop : int
+    - executorService : ScheduledExecutorService
+    - timeInterval : int
+    - BACKGROUND : BufferedImage
+    - enemyFactory : EnemyFactory
+    - heroAircraft : HeroAircraft
+    - enemyAircrafts : List<BaseEnemy>
+    - heroBullets : List<BaseBullet>
+    - enemyBullets : List<BaseBullet>
+    - props : List<BaseProp>
+    - enemyMaxNumber : int
+    - score : int
+    - time : int
+    - cycleDuration : int
+    - cycleTime : int
+    - gameOverFlag : boolean
+    + Game()
+    + action()
+    # timeCountAndNewCycleJudge() : boolean
+    # shootAction()
+    # bulletsMoveAction()
+    # propMoveAction()
+    # aircraftsMoveAction()
+    # crashCheckAction()
+    # postProcessAction()
+    # paint(g : Graphics)
+    # paintImageWithPositionRevised(Graphics g, List<? extends AbstractFlyingObject> objects)
+    # paintScoreAndLife(Graphics g)
+    {abstract} # EnemyCreate()
+    {abstract} # DifficultyUp()
+    {abstract} # EnemyMaxNumUp()
+    {abstract} # BossHpUp()
+    {abstract} # ProbabilityOfEliteUp()
+    {abstract} # BossThresholdDecrease()
+    {abstract} # DurationDecrease()
+}
+
+class EasyGame extends Game {
+    + EasyGame()
+    # EnemyCreate()
+    # DifficultyUp()
+    # EnemyMaxNumUp()
+    # BossHpUp()
+    # ProbabilityOfEliteUp()
+    # BossThresholdDecrease()
+    # DurationDecrease()
+}
+
+class NormalGame extends Game {
+    - ProbabilityOfElite : int
+    - bossTime : int
+    - bossHp : int
+    - pretime : int
+    - prescore : int
+    - elitePretime : int
+    + NormalGame()
+    # EnemyCreate() :void
+    # DifficultyUp() : void
+    # EnemyMaxNumUp(): void
+    # BossHpUp():void
+    # ProbabilityOfEliteUp():void
+    # BossThresholdDecrease():void
+    # DurationDecrease():void
+}
+class DifficultGame extends Game {
+    - ProbabilityOfElite : int
+    - bossTime : int
+    - bossHp : int
+    - pretime : int
+    - prescore : int
+    - elitePretime : int
+    + DifficultGame()
+    # EnemyCreate()
+    # DifficultyUp()
+    # EnemyMaxNumUp()
+    # BossHpUp()
+    # ProbabilityOfEliteUp()
+    # BossThresholdDecrease()
+    # DurationDecrease()
+}
+
+
+
+
+@enduml

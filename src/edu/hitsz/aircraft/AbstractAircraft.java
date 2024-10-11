@@ -16,7 +16,6 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
     /**
      * 生命值
      */
-    protected int maxHp;
     protected int hp;
     protected int shootNum=0;
     protected int direction=1;
@@ -44,7 +43,6 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
     public AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY);
         this.hp = hp;
-        this.maxHp = hp;
     }
 
     public void decreaseHp(int decrease){
@@ -72,6 +70,9 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
      */
     public abstract List<BaseBullet> shoot();
 
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
 }
 
 

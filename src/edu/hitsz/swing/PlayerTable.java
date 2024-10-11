@@ -3,6 +3,7 @@ package edu.hitsz.swing;
 import edu.hitsz.Dao.Player;
 import edu.hitsz.Dao.PlayerDao;
 import edu.hitsz.Dao.PlayerDaoImpl;
+import edu.hitsz.application.Main;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -45,7 +46,6 @@ public class PlayerTable {
         //JTable并不存储自己的数据，而是从表格模型那里获取它的数据
         scoreTable.setModel(model);
         tableScrollPanel.setViewportView(scoreTable);
-
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,6 +58,8 @@ public class PlayerTable {
                     PlayerDao playerDao1=new PlayerDaoImpl();
                     playerDao1.doDelete(row+1);
                 }
+                Main.cardPanel.add(new PlayerTable().getMainPanel());
+                Main.cardLayout.last(Main.cardPanel);
             }
         });
     }

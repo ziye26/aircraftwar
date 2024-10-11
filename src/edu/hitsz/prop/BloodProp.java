@@ -1,6 +1,9 @@
 package edu.hitsz.prop;
 
+import edu.hitsz.Thread.MusicThread;
+import edu.hitsz.Thread.PropMusicThread;
 import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.application.VideoController;
 
 import static java.lang.Math.min;
 
@@ -16,6 +19,8 @@ public class BloodProp extends BaseProp {
 
     @Override
     public void Active(HeroAircraft heroAircraft) {
-        heroAircraft.decreaseHp(-min(100-heroAircraft.getHp(),this.getAddHp()));
+        heroAircraft.decreaseHp(-min(500-heroAircraft.getHp(),this.getAddHp()));
+        MusicThread a=new PropMusicThread(VideoController.getGetSupplyVideo());
+        a.start();
     }
 }

@@ -22,7 +22,6 @@ class DividingShoot{
 
 
 abstract class AbstractAircraft{
-    # maxHp : int
     # hp : int
     # shootNum : int
     # direction : int
@@ -38,6 +37,7 @@ abstract class AbstractAircraft{
     + getHp() : int
     + SetShootStrategy(ShootStrategy shootStrategy) : void
     + {abstract} shoot() : List<BaseBullet>
+    + setHp(int hp) : void
 }
 
 AbstractAircraft o--> ShootStrategy

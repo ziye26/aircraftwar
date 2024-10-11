@@ -25,63 +25,86 @@ abstract class AbstractFlyingObject
     + notValid():boolean
     + vanish():void
 }
-abstract class AbstractAircraft
-{
-	# maxHp:int
-    # hp:int
+abstract class AbstractAircraft{
+    # hp : int
+    # shootNum : int
+    # direction : int
+    # power : int
+    # shootStrategy : ShootStrategy
+
     + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
-    + decreaseHp(int decrease):void
-    + getHp():int
-    + {abstract} shoot():List<BaseBullet>
- }
+    + getShootNum() : int
+    + setShootNum(int shootNum) : void
+    + getDirection() : int
+    + getPower() : int
+    + decreaseHp(int decrease) : void
+    + getHp() : int
+    + SetShootStrategy(ShootStrategy shootStrategy) : void
+    + {abstract} shoot() : List<BaseBullet>
+    + setHp(int hp) : void
+}
+
+
 abstract class BaseProp {
     + BaseProp(int locationX,int locationY,int speedX,int speedY)
     + forward(): void
-    + Active(HeroAircraft a): void
+    + {abstract}Active(HeroAircraft a): void
 }
 
-class HeroAircraft {
+class HeroAircraft extends AbstractAircraft{
     - {static} instance: HeroAircraft
-    - shootNum:int
-    - power:int
-    - direction:int
     - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
     + {static} getInstance(): HeroAircraft
     + forward(): void
     + shoot(): List<BaseBullet>
 }
 
-
-HeroAircraft::instance --> HeroAircraft
-
-AbstractAircraft <|-- HeroAircraft
+HeroAircraft::instance -[hidden]-> HeroAircraft
+HeroAircraft::instance -left-> HeroAircraft
 
 abstract class BaseEnemy {
     + BaseEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int)
     + shoot() : List<BaseBullet>
-    + createProp() : BaseProp
+    + createProp() : List<BaseProp>
 }
 AbstractAircraft <|-- BaseEnemy
 
 class MobEnemy {
     + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
-    + forward():void
-    + shoot():List<BaseBullet>
-    + createProp() : BaseProp
+    + forward() : void
+    + createProp() : List<BaseProp>
+    + shoot() : List<BaseBullet>
+    + update() : void
 }
 BaseEnemy <|-- MobEnemy
 
 class EliteEnemy {
-    - shootNum:int
-    - power:int
-    - direction:int
-    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
-    + forward():void
-    + shoot():List<BaseBullet>
-    + createProp() : BaseProp
+    +EliteEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int)
+    +forward(): void
+    +createProp(): List<BaseProp>
+    +shoot(): List<BaseBullet>
+    +update(): void
 }
 BaseEnemy <|-- EliteEnemy
 
+class Boss extends BaseEnemy {
+    - {static} flag:int
+    + Boss(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward():void
+    + vanish():void
+    + {static} getExistence():boolean
+    + createProp() :List<BaseProp>
+    + shoot() : List<BaseBullet>
+    + update() :void
+}
+
+class ElitePlusEnemy extends BaseEnemy {
+    + ElitePlusEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward() : void
+    + createProp() : List<BaseProp>
+    + shoot() : List<BaseBullet>
+    + update() : void
+}
 
 abstract class BaseBullet
 {
@@ -94,11 +117,13 @@ abstract class BaseBullet
 class HeroBullet {
     + HeroBullet(int locationX, int locationY,
      int speedX, int speedY, int power)
+     + update(): void
 }
 
 class EnemyBullet {
     + EnemyBullet(int locationX, int locationY,
      int speedX, int speedY, int power)
+    + update(): void
 }
 
 BaseBullet <|-- HeroBullet
@@ -111,13 +136,24 @@ class BloodProp {
     + Active(HeroAircraft a): void
 }
 class BombProp {
-    + BombProp(int locationX, int locationY, int speedX, int speedY)
+    -Observers: List<Observer>
+    +addObserver(Observer observer): void
+    +removeBaseEnemy(Observer observer): void
+    +getObserversDestroy(): int
+    +notifyall(): void
+    +BombProp(int locationX,int locationY, int speedX, int speedY)
     + Active(HeroAircraft a): void
 }
 class BulletProp {
     + BulletProp(int locationX, int locationY, int speedX, int speedY)
     + Active(HeroAircraft a): void
 }
+
+class BulletPlusProp extends BaseProp {
+    + BulletPlusProp(int locationX, int locationY, int speedX, int speedY)
+    + Active(HeroAircraft a) : void
+}
+
 BaseProp <|-- BombProp
 BaseProp <|-- BloodProp
 BaseProp <|-- BulletProp

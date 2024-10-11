@@ -81,4 +81,8 @@ public class Boss extends BaseEnemy{
         return shootStrategy.shoot(this);
     }
 
+    @Override
+    public void update() {
+
+    }
 }

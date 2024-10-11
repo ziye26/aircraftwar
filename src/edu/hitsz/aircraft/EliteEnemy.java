@@ -60,4 +60,9 @@ public class EliteEnemy extends BaseEnemy{
     public List<BaseBullet> shoot() {
         return shootStrategy.shoot(this);
     }
+
+    @Override
+    public void update() {
+        this.decreaseHp(this.getHp());
+    }
 }

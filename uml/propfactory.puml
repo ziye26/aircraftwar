@@ -8,6 +8,11 @@ class BulletPropFactory {
     + CreateProp(int locationX,int locationY,int speedX,int speedY): BaseProp
 }
 
+class BulletPropPlusFactory implements PropFactory{
+    +BulletPropPlusFactory()
+    +CreateProp(int locationX,int locationY,int speedX,int speedY): BaseProp
+}
+
 class BombPropFactory {
     + CreateProp(int locationX,int locationY,int speedX,int speedY): BaseProp
 }
@@ -19,7 +24,7 @@ class BloodPropFactory {
 abstract class BaseProp {
     + BaseProp(int locationX,int locationY,int speedX,int speedY)
     + forward(): void
-    + Active(HeroAircraft a): void
+    + {abstract}Active(HeroAircraft a): void
 }
 
 class BloodProp {
@@ -29,13 +34,24 @@ class BloodProp {
     + Active(HeroAircraft a): void
 }
 class BombProp {
-    + BombProp(int locationX, int locationY, int speedX, int speedY)
+    -Observers: List<Observer>
+    +addObserver(Observer observer): void
+    +removeBaseEnemy(Observer observer): void
+    +getObserversDestroy(): int
+    +notifyall(): void
+    +BombProp(int locationX,int locationY, int speedX, int speedY)
     + Active(HeroAircraft a): void
 }
 class BulletProp {
     + BulletProp(int locationX, int locationY, int speedX, int speedY)
     + Active(HeroAircraft a): void
 }
+
+class BulletPlusProp extends BaseProp {
+    + BulletPlusProp(int locationX, int locationY, int speedX, int speedY)
+    + Active(HeroAircraft a) : void
+}
+
 BaseProp <|-- BombProp
 BaseProp <|-- BloodProp
 BaseProp <|-- BulletProp
@@ -50,5 +66,6 @@ PropFactory ..> BaseProp : <<create>>
 BloodPropFactory ..> BloodProp : <<create>>
 BulletPropFactory ..> BulletProp : <<create>>
 BombPropFactory ..> BombProp : <<create>>
+BulletPropPlusFactory ..> BulletPlusProp : <<create>>
 
 @enduml

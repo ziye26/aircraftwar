@@ -1,0 +1,90 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+ class BombProp {
+    -Observers: List<Observer>
+    +addObserver(Observer observer): void
+    +removeObserver(Observer observer): void
+    +getObserversDestroy(): int
+    +notifyall(): void
+    +BombProp(int locationX,int locationY, int speedX, int speedY)
+}
+
+interface Observer {
+    +{abstract} update(): void
+}
+
+abstract class BaseBullet implements Observer{
+    - power : int
+    + BaseBullet(int locationX, int locationY, int speedX, int speedY, int power)
+    + forward() : void
+    + getPower() : int
+    + {abstract}update() :void
+}
+
+class HeroBullet {
+    + HeroBullet(int locationX, int locationY,
+     int speedX, int speedY, int power)
+     + update(): void
+}
+
+class EnemyBullet {
+    + EnemyBullet(int locationX, int locationY,
+     int speedX, int speedY, int power)
+    + update(): void
+}
+
+BaseBullet <|-- HeroBullet
+BaseBullet <|-- EnemyBullet
+
+abstract class BaseEnemy {
+    + BaseEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int)
+    + shoot() : List<BaseBullet>
+    + createProp() : BaseProp
+    + {abstract}update() :void
+}
+
+class MobEnemy {
+    + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward() : void
+    + createProp() : List<BaseProp>
+    + shoot() : List<BaseBullet>
+    + update() : void
+}
+BaseEnemy <|-- MobEnemy
+
+class EliteEnemy {
+    +EliteEnemy(locationX: int, locationY: int, speedX: int, speedY: int, hp: int)
+    +forward(): void
+    +createProp(): List<BaseProp>
+    +shoot(): List<BaseBullet>
+    +update(): void
+}
+BaseEnemy <|-- EliteEnemy
+
+class Boss extends BaseEnemy {
+    - {static} flag:int
+    + Boss(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward():void
+    + vanish():void
+    + {static} getExistence():boolean
+    + createProp() :List<BaseProp>
+    + shoot() : List<BaseBullet>
+    + update() :void
+}
+
+class ElitePlusEnemy extends BaseEnemy {
+    + ElitePlusEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + forward() : void
+    + createProp() : List<BaseProp>
+    + shoot() : List<BaseBullet>
+    + update() : void
+}
+
+game ..> BombProp
+BombProp o--> Observer
+Observer <|.. BaseEnemy
+
+
+@enduml

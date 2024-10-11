@@ -41,4 +41,8 @@ public class MobEnemy extends BaseEnemy {
         return this.shootStrategy.shoot(this);
     }
 
+    @Override
+    public void update() {
+        this.decreaseHp(this.getHp());
+    }
 }
